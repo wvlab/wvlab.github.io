@@ -32,7 +32,7 @@
             <a href="#" class="filter-link active" data-filter="ru">[ru]</a>
             <a href="#" class="filter-link active" data-filter="uk">[uk]</a>
         </p>
-    <!-- TODO: make date filter -->
+        <!-- TODO: make date filter -->
     </div>
 
     <script>
@@ -41,6 +41,14 @@
                 title: "unnamed",
                 date: new Date(2023, 6, 25),
                 link: "prose/lightning.html",
+                languages: ["ru"],
+                categories: ["Prose"]
+            },
+            {
+                title: "Башня для А.",
+                // TODO: check date somewhere
+                date: null,
+                link: "prose/tower.html",
                 languages: ["ru"],
                 categories: ["Prose"]
             },
@@ -121,10 +129,10 @@
                     const item = document.createElement("li");
 
                     const dateSpan = document.createElement('span');
-                    dateSpan.textContent = page.date.toLocaleDateString(
-                        navigator.language, 
-                        { year: "numeric", month: "long", day: "numeric" }
-                    );
+                    dateSpan.textContent = page.date !== null ? page.date.toLocaleDateString(
+                        navigator.language,
+                        {year: "numeric", month: "long", day: "numeric"}
+                    ) : "???";
 
                     const dashSpan = document.createElement('span');
                     dashSpan.textContent = " - ";
