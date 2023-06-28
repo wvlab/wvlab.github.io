@@ -1,0 +1,48 @@
+@use "sass:color";
+
+$accent-color: #d290a6;
+
+html {
+    font-family: monospace;
+    font-size: 0.95em;
+}
+
+body {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+div {
+    &.centered {
+        text-align: center;
+    }
+
+    &.prose {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
+a {
+    text-decoration: none;
+
+    &:link {
+        color: $accent-color;
+    }
+
+    &:visited {
+        color: $accent-color;
+    }
+
+    &:hover {
+        color: color.scale($accent-color, $lightness: 15%);
+    }
+
+    &:active {
+        color: $accent-color;
+    }
+
+    &.filter-link.inactive {
+        color: grey;
+    }
+}

@@ -1,0 +1,38 @@
+html {
+  font-family: monospace;
+  font-size: 0.95em;
+}
+
+body {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+div.centered {
+  text-align: center;
+}
+div.prose {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+a {
+  text-decoration: none;
+}
+a:link {
+  color: #d290a6;
+}
+a:visited {
+  color: #d290a6;
+}
+a:hover {
+  color: #d9a1b3;
+}
+a:active {
+  color: #d290a6;
+}
+a.filter-link.inactive {
+  color: grey;
+}
+
+/*# sourceMappingURL=styles.css.map */

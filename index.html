@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>exec ~/.wvlab</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+    <div class="centered">
+        <a href="http://github.com/wvlab">[Git]</a>
+        <a href="http://t.me/wvlab">[Telegram]</a>
+    </div>
+    <div class="centered">
+        <p>Who am I?</p>
+    </div>
+
+    <div id="page-list">
+        <!-- This needs to be empty. -->
+    </div>
+
+    <div class="filter-options">
+        <p> <span>Categories</span>
+            <a href="#" class="filter-link active" data-filter="Poetry">[Poetry]</a>
+            <a href="#" class="filter-link active" data-filter="Prose">[Prose]</a>
+            <a href="#" class="filter-link active" data-filter="Programming">[Programming]</a>
+        </p>
+
+        <p> <span>Languages</span>
+            <a href="#" class="filter-link active" data-filter="en">[en]</a>
+            <a href="#" class="filter-link active" data-filter="ru">[ru]</a>
+            <a href="#" class="filter-link active" data-filter="uk">[uk]</a>
+        </p>
+    <!-- TODO: make date filter -->
+    </div>
+
+    <script>
+        const pages = [
+            {
+                title: "unnamed",
+                date: new Date(2023, 6, 25),
+                link: "prose/lightning.html",
+                languages: ["ru"],
+                categories: ["Prose"]
+            },
+        ];
+
+        const pageList = document.getElementById("page-list");
+        const filterOptions = document.querySelector(".filter-options");
+
+        filterOptions.addEventListener("click", event => {
+            const filterLink = event.target.closest(".filter-link");
+
+            if (!filterLink) return;
+            event.preventDefault();
+
+            filterLink.classList.toggle("active");
+            filterLink.classList.toggle("inactive");
+
+            filterPages();
+        });
+
+        function getSelectedFilters() {
+            const selectedFilters = {};
+
+            const filterLinks = document.querySelectorAll('.filter-link.active');
+            filterLinks.forEach(link => {
+                const filterType = link.parentNode.querySelector('span').textContent.toLowerCase();
+                const filterValue = link.getAttribute('data-filter');
+
+                if (!selectedFilters[filterType]) {
+                    selectedFilters[filterType] = [];
+                }
+                selectedFilters[filterType].push(filterValue);
+            });
+            return selectedFilters;
+        }
+
+        function filterPages() {
+            const selectedFilters = getSelectedFilters();
+            const filteredPages = pages.filter(page => {
+                for (const filterType in selectedFilters) {
+                    const selectedValues = selectedFilters[filterType];
+                    for (let tag of page[filterType]) {
+                        if (selectedValues.indexOf(tag) >= 0) {
+                            break;
+                        }
+                        return false;
+                    }
+                }
+                return true; // Include pages that match all selected filters
+            });
+
+            // Update the page list
+            placePages(filteredPages);
+        }
+
+        function placePages(pages) {
+            const categories = new Map();
+
+            for (page of pages) {
+                for (category of page.categories) {
+                    if (categories.has(category)) {
+                        categories.get(category).push(page);
+                    } else {
+                        categories.set(category, [page]);
+                    }
+                }
+            }
+            const fragment = document.createDocumentFragment();
+
+            categories.forEach((pages, category) => {
+                const div = document.createElement("div");
+                div.classList.add("category");
+                div.innerHTML = `<h2>${category}</h2>`;
+
+                const list = document.createElement("ul");
+
+                for (page of pages) {
+                    const item = document.createElement("li");
+
+                    const dateSpan = document.createElement('span');
+                    dateSpan.textContent = page.date.toLocaleDateString(
+                        navigator.language, 
+                        { year: "numeric", month: "long", day: "numeric" }
+                    );
+
+                    const dashSpan = document.createElement('span');
+                    dashSpan.textContent = " - ";
+
+                    const link = document.createElement("a");
+                    link.href = page.link;
+                    link.textContent = page.title;
+
+                    item.appendChild(dateSpan);
+                    item.appendChild(dashSpan);
+                    item.appendChild(link);
+                    list.appendChild(item);
+                }
+                div.appendChild(list);
+                fragment.appendChild(div);
+            })
+
+            pageList.innerHTML = "";
+            pageList.appendChild(fragment);
+        }
+
+        filterPages();
+    </script>
+
+</body>
+
+</html>
