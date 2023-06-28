@@ -44,25 +44,28 @@
                 link: "prose/lightning.html",
                 languages: ["ru"],
                 categories: ["Prose"]
-            },
-            {
+            }, {
                 title: "unnamed",
                 date: new Date(2023, 4, 2),
                 link: "poetry/walls.html",
                 languages: ["uk"],
                 categories: ["Poetry"]
-            },
-            {
+            }, {
+                title: "Автору",
+                date: new Date(2022, 3, 29),
+                link: "poetry/author.html",
+                languages: ["ru"],
+                categories: ["Poetry"]
+            }, {
                 title: "Давай",
                 date: new Date(2022, 2, 27),
                 link: "poetry/lets.html",
                 languages: ["ru"],
                 categories: ["Poetry"]
-            },
-            {
+            }, {
                 title: "Башня для А.",
                 // TODO: check date somewhere
-                date: null,
+                //date: new Date(2021, 0, 0),
                 link: "prose/tower.html",
                 languages: ["ru"],
                 categories: ["Prose"]
@@ -112,10 +115,9 @@
                         return false;
                     }
                 }
-                return true; // Include pages that match all selected filters
+                return true;
             });
 
-            // Update the page list
             placePages(filteredPages);
         }
 
@@ -143,13 +145,17 @@
                 for (page of pages) {
                     const item = document.createElement("li");
 
-                    const dateSpan = document.createElement('span');
-                    dateSpan.textContent = page.date !== null ? page.date.toLocaleDateString(
-                        navigator.language,
-                        {year: "numeric", month: "long", day: "numeric"}
-                    ) : "???";
+                    const dateSpan = document.createElement("span");
+                    dateSpan.textContent = (page.date === undefined) ?
+                        "???" : page.date.toLocaleDateString(
+                            navigator.language, {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric"
+                            }
+                        );
 
-                    const dashSpan = document.createElement('span');
+                    const dashSpan = document.createElement("span");
                     dashSpan.textContent = " - ";
 
                     const link = document.createElement("a");

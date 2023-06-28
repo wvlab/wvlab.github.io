@@ -25,6 +25,32 @@ div.poetry {
   justify-content: center;
   text-align: left;
 }
+div.related {
+  position: relative;
+  padding-top: 1.5vw;
+  padding-left: 3vw;
+  padding-right: 3vw;
+}
+div.related::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 2px solid #d290a6;
+  border-left: 2px solid #d290a6;
+  width: 30%;
+  height: 10%;
+}
+div.related::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid #d290a6;
+  border-right: 2px solid #d290a6;
+  width: 3%;
+  height: 15%;
+}
 
 a {
   text-decoration: none;

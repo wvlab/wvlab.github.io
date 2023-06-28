@@ -33,6 +33,33 @@ div {
         justify-content: center;
         text-align: left;
     }
+    &.related {
+        position: relative;
+        padding-top: 1.5vw;
+        padding-left: 3vw;
+        padding-right: 3vw;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-top: 2px solid $accent-color;
+            border-left: 2px solid $accent-color;
+            width: 30%;
+            height: 10%;
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-bottom: 2px solid $accent-color;
+            border-right: 2px solid $accent-color;
+            width: 3%;
+            height: 15%;
+        }
+    }
 }
 
 a {
