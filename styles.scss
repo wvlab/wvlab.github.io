@@ -28,11 +28,13 @@ div {
         margin-left: 5%;
         margin-right: 5%;
     }
+
     &.poetry {
         display: flex;
         justify-content: center;
         text-align: left;
     }
+
     &.related {
         position: relative;
         padding-top: 1.5vw;
@@ -49,6 +51,7 @@ div {
             width: 30%;
             height: 10%;
         }
+
         &::after {
             content: "";
             position: absolute;
@@ -84,4 +87,8 @@ a {
     &.filter-link.inactive {
         color: grey;
     }
+}
+
+img {
+    width: 50%;
 }
