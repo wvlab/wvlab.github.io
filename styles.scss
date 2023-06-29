@@ -89,6 +89,18 @@ a {
     }
 }
 
+span {
+    &.caret {
+        animation: blink 1s step-end infinite;
+    }
+}
+
 img {
     width: 50%;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }
