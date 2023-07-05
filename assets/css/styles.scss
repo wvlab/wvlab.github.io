@@ -1,5 +1,5 @@
-@use "sass:color";
-
+---
+---
 $accent-color: #d290a6;
 
 html {
@@ -85,7 +85,7 @@ a {
     }
 
     &:hover {
-        color: color.scale($accent-color, $lightness: 15%);
+        color: scale-color($accent-color, $lightness: 15%);
     }
 
     &:active {
