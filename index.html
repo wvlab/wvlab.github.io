@@ -39,13 +39,14 @@
 
     <script>
         const pages = [
+            //{
+            //    title: "Structures in C",
+            //    date: new Date(2023, 6, 3),
+            //    link: "programming/index.html",
+            //    languages: ["en"],
+            //    categories: ["Programming"]
+            //},
             {
-                title: "Structures in C",
-                date: new Date(2023, 6, 3),
-                link: "programming/cstructs/index.html",
-                languages: ["en"],
-                categories: ["Programming"]
-            }, {
                 title: "unnamed",
                 date: new Date(2023, 7, 25),
                 link: "prose/lightning.html",
@@ -192,10 +193,10 @@
                     dateSpan.textContent = (page.date === undefined) ?
                         "???" : page.date.toLocaleDateString(
                             navigator.language, {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric"
-                            }
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric"
+                        }
                         );
 
                     const dashSpan = document.createElement("span");
