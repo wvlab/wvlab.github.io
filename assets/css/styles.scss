@@ -1,27 +1,11 @@
 ---
 ---
-$accent-color: #d290a6;
-$highlight-color: scale-color($accent-color, $lightness: 15%);
-$inactive-color: grey;
+@import "constants";
 
 html {
-    scroll-behaviour: smooth;
     font-family: monospace;
     font-size: 1.1em;
 
-}
-
-main {
-    display: grid;
-    grid-template-columns: 1fr 15em;
-    max-width: 1000px;
-    margin: 0 auto;
-
-    & > nav.section-nav {
-        position: sticky;
-        top: 2rem;
-        align-self: start;
-    }
 }
 
 body {
@@ -37,7 +21,6 @@ h2 {
 }
 
 div {
-    $mwidth: 800px;
     &.centered {
         text-align: center;
     }
@@ -119,29 +102,6 @@ a {
 span {
     &.caret {
         animation: blink 1s step-end infinite;
-    }
-}
-
-.section-nav {
-    padding-left: 0;
-    border-left: 1px solid $inactive-color;
-        
-    a {
-        color: $inactive-color;
-    }
-
-    ul, ol {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    li {
-        &.active {
-            a {
-                color: $highlight-color;
-            }
-        }
     }
 }
 

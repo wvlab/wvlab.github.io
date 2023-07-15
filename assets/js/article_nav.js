@@ -1,6 +1,12 @@
+const body = document.body;
+
 window.addEventListener("DOMContentLoaded", () => {
 
 	const observer = new IntersectionObserver(entries => {
+        if (parseInt(body.style.maxWidth.substring(0, -3)) < 800) {
+            return;
+        }
+
 		entries.forEach(entry => {
 			const id = entry.target.getAttribute("id");
 			if (entry.intersectionRatio > 0) {
