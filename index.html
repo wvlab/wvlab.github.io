@@ -34,6 +34,7 @@
         <!-- TODO: make date filter -->
     </div>
 
+    <div><a href="#" class="rnd">I am feeling lucky!</a></div>
     <div id="page-list">
         <!-- This needs to be empty. -->
     </div>
@@ -227,6 +228,10 @@
         }
 
         filterPages();
+
+        document.querySelector("a.rnd").addEventListener("click", () => {
+            window.location.href = pages[Math.floor(Math.random() * (pages.length + 1))].link;
+        })
     </script>
 
 </body>
