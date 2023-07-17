@@ -13,7 +13,7 @@ body {
     background-color: #000000;
 }
 
-h2 {
+h2, h1 {
     &.title {
         color: $accent-color;
         text-align: center;
@@ -31,11 +31,24 @@ div {
     }
 
     &.poetry {
+        @mixin center-poem($display: flex) {
+            display: $display;
+            justify-content: center;
+        }
+
+        @include center-poem;
         margin: auto;
-        display: flex;
-        justify-content: center;
         text-align: left;
         max-width: $mwidth;
+
+        .verse-wrapper {
+            margin: 0 auto;
+        }
+
+        .verse {
+            @include center-poem;
+            flex-direction: column;
+        }
     }
 
     &.article {
