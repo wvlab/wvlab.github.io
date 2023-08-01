@@ -11,9 +11,7 @@
 
 <body>
 
-    <div class="centered">
-        <a href="/index.html">[Main Page]</a>
-    </div>
+    {% include mainpage.html %}
 
     {% if page.title != "unnamed" %}
     <h2 class="title">{{ page.title }}</h2>
@@ -21,6 +19,9 @@
     <div class="prose">
         {{ content }}
     </div>
+
+    {% include mainpage.html %}
+
 </body>
 
 </html>

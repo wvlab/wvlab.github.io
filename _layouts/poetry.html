@@ -11,15 +11,14 @@
 
 <body>
 
-    <div class="centered">
-        <a href="/index.html">[Main Page]</a>
-    </div>
+    {% include mainpage.html %}
 
     <div class="poetry">
         <div>
             {% if page.title != "unnamed" %}
-            <h2 class="title">{{ page.title }}</h2>
+                <h2 class="title">{{ page.title }}</h2>
             {% endif %}
+
             <div class="verse">
                 <div class="verse-wrapper">
                     {{ content }}
@@ -27,6 +26,8 @@
             </div>
         </div>
     </div>
+
+    {% include mainpage.html %}
 
 </body>
 

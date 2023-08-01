@@ -13,14 +13,17 @@
 
 <body>
 
+    {% include mainpage.html %}
+
     <div class="centered">
-        <a href="/index.html">[Main Page]</a>
         <h1 class="title">{{ page.title }}</h1>
     </div>
 
     <main>
         {{ content }}
     </main>
+
+    {% include mainpage.html %}
 
 </body>
 
