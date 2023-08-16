@@ -1,0 +1,66 @@
+---
+const layout = "@layouts/programming.astro";
+const title = "Structs in C"
+const lang = "en"
+const sections = [
+    "def",
+    "decl",
+]
+---
+<nav class="section-nav">
+    <ul>
+        <li><a href="#def">Definition</a></li>
+        <li><a href="#decl">Declaration</a></li>
+        <li><a href="#usage">Usage</a></li>
+    </ul>
+</nav>
+
+<div class="article">
+
+    <section id="def">
+        <h2>Definition</h2>
+        <p>
+            A structure is a composite data type, a collection of variables, that
+            can be of different types. These variables are grouped under one name.
+            It helps, especially in large programs, to separate and organize data
+            units. Some programming languages (Haskell, Erlang, Pascal, etc) call
+            it as record. If you came here from OOP langs you can think about
+            structures as of classes without methods.
+        </p>
+
+        <p>
+            There is one traditional example of structure: a person is desribed
+            by attributes such as name, age, gender, address, phone number, etc.
+            Also this struct Person can have nested structs in it, address or
+            name may have several components.
+        </p>
+    </section>
+
+    <section id="decl">
+        <h2>Declaration</h2>
+        <p>
+            In c struct is declared in this way:
+{% highlight c %}
+struct Person {
+    char *name;
+    short age;
+    enum Gender gender;
+    struct Address adress;
+    long phone; // yeah, it is dumb to store phone as number, but whatever
+};
+{% endhighlight %}
+            Right parenthesis could be followed by a list of variables, also
+            structs tag, e.g. written after struct keyword, could be ommited,
+            but is better not to.<br>
+            The thing is,
+{% highlight c %}
+struct { ... } var1, var2, ...;
+{% endhighlight %}
+            is the same way of declaring variables as in
+{% highlight c %}
+int var1, var2, ...;
+{% endhighlight %}
+        </p>
+    </section>
+
+</div>

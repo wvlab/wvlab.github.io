@@ -1,0 +1,23 @@
+---
+import "@styles/base.scss";
+
+interface Props {
+  title: string;
+  lang?: string;
+}
+const { title, lang } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang || "en"}>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>

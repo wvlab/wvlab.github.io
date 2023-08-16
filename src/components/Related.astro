@@ -1,0 +1,10 @@
+---
+export interface Related {
+  text: string;
+}
+const { text } = Astro.props;
+---
+
+<div class="related">
+  <p>{text}</p>
+</div>
