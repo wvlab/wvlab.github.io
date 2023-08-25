@@ -1,0 +1,269 @@
+---
+type Props = Record<string, never>;
+
+const filterOptions: Map<string, string[]> = new Map([
+  ["Categories", ["Poetry", "Prose", "Programming", "Psychology"]],
+  ["Languages", ["en", "uk", "ru"]],
+]);
+---
+
+<div class="filter-options">
+  {
+    Array.from(filterOptions.entries()).map(([key, values]) => {
+      <p>
+        <span>{key}</span>:
+        {values.map((filter) => {
+          <a href="#" class="filter-link inactive" data-filter={filter}>
+            [{filter}]
+          </a>;
+        })}
+      </p>;
+    })
+  }
+  <!--p>
+    <span>Categories</span>:
+    <a href="#" class="filter-link inactive" data-filter="Poetry">[Poetry]</a>
+    <a href="#" class="filter-link inactive" data-filter="Prose">[Prose]</a>
+    <a href="#" class="filter-link inactive" data-filter="Programming"
+      >[Programming]</a
+    >
+    <a href="#" class="filter-link inactive" data-filter="Psychology"
+      >[Psychology]</a
+    >
+  </p>
+
+  <p>
+    <span>Languages</span>:
+    <a href="#" class="filter-link inactive" data-filter="en">[en]</a>
+    <a href="#" class="filter-link inactive" data-filter="ru">[ru]</a>
+    <a href="#" class="filter-link inactive" data-filter="uk">[uk]</a>
+  </p>
+  <!-- TODO: make date filter -->
+</div>
+
+<a href="#" class="rnd">I am feeling lucky!</a>
+
+<div id="page-list">
+  <!-- This needs to be empty. -->
+</div>
+
+<script>
+  type Language = "en" | "uk" | "ru";
+  type Categorie = "Poetry" | "Prose" | "Programming" | "Psychology";
+
+  interface Page {
+    title: string;
+    date?: Date;
+    link: string;
+    languages: Language[];
+    categories: Categorie[];
+  }
+  const pages: Page[] = [
+    //{
+    //    title: "Structures in C",
+    //    date: new Date(2023, 6, 3),
+    //    link: "programming/cstructs.html",
+    //    languages: ["en"],
+    //    categories: ["Programming"]
+    //},
+    {
+      title: "наш социум принял безумца",
+      date: new Date(2023, 6, 17),
+      link: "poetry/artist",
+      languages: ["ru"],
+      categories: ["Poetry"],
+    },
+    {
+      title: "unnamed",
+      date: new Date(2023, 7, 25),
+      link: "prose/lightning",
+      languages: ["ru"],
+      categories: ["Prose"],
+    },
+    {
+      title: "Мальчик, который кричал: «Волк!»",
+      date: new Date(2023, 4, 9),
+      link: "prose/wolf",
+      languages: ["ru"],
+      categories: ["Prose"],
+    },
+    {
+      title: "unnamed",
+      date: new Date(2023, 4, 2),
+      link: "poetry/walls",
+      languages: ["uk"],
+      categories: ["Poetry"],
+    },
+    {
+      title: "Солнце тихо тонет в луже",
+      date: new Date(2023, 3, 2),
+      link: "poetry/sun",
+      languages: ["ru"],
+      categories: ["Poetry"],
+    },
+    {
+      title: "Автору",
+      date: new Date(2022, 3, 29),
+      link: "poetry/author",
+      languages: ["ru"],
+      categories: ["Poetry"],
+    },
+    {
+      title: "Давай",
+      date: new Date(2022, 2, 27),
+      link: "poetry/lets",
+      languages: ["ru"],
+      categories: ["Poetry"],
+    },
+    {
+      title: "Продажный Герой",
+      date: new Date(2022, 1, 17),
+      link: "poetry/hero",
+      languages: ["ru"],
+      categories: ["Poetry"],
+    },
+    {
+      title: "Дворец у дворца",
+      date: new Date(2022, 0, 16),
+      link: "poetry/demiurge",
+      languages: ["ru"],
+      categories: ["Poetry"],
+    },
+    {
+      title: "Свет",
+      date: new Date(2022, 0, 5),
+      link: "poetry/light",
+      languages: ["ru"],
+      categories: ["Poetry"],
+    },
+    {
+      title: "Перфекционизм. Странная хворь",
+      date: new Date(2021, 9, 17),
+      link: "psychology/perfectionism/index",
+      languages: ["ru"],
+      categories: ["Psychology"],
+    },
+    {
+      title: "Башня для А.",
+      // TODO: check date somewhere
+      //date: new Date(2021, 0, 0),
+      link: "prose/tower",
+      languages: ["ru"],
+      categories: ["Prose"],
+    },
+  ];
+
+  const pageList = document.getElementById("page-list")!;
+  const filterOptions = document.querySelector(".filter-options")!;
+
+  filterOptions.addEventListener("click", (event) => {
+    if (!event.target) return;
+    const filterLink = (event.target as Element).closest(".filter-link");
+
+    if (!filterLink) return;
+    event.preventDefault();
+
+    filterLink.classList.toggle("active");
+    filterLink.classList.toggle("inactive");
+
+    filterPages();
+  });
+
+  function getSelectedFilters() {
+    const selectedFilters = new Map();
+
+    const filterLinks = document.querySelectorAll(".filter-link.active");
+    filterLinks.forEach((link) => {
+      const filterType = link
+        .parentNode!.querySelector("span")!
+        .textContent!.toLowerCase();
+      const filterValue = link.getAttribute("data-filter");
+
+      if (!selectedFilters.has(filterType)) {
+        selectedFilters.set(filterType, []);
+      }
+      selectedFilters.get(filterType).push(filterValue);
+    });
+    return selectedFilters;
+  }
+
+  function filterPages() {
+    const selectedFilters = getSelectedFilters();
+    const filteredPages = pages.filter((page) => {
+      for (const filterType of selectedFilters) {
+        const selectedValues = selectedFilters.get(filterType);
+        const tags = page[filterType as unknown as keyof Page] as string[];
+        for (let tag of tags) {
+          if (selectedValues.indexOf(tag) >= 0) {
+            break;
+          }
+          return false;
+        }
+      }
+      return true;
+    });
+
+    placePages(filteredPages);
+  }
+
+  function placePages(pages: Array<Page>) {
+    const categories = new Map();
+
+    for (const page of pages) {
+      for (const category of page.categories) {
+        if (categories.has(category)) {
+          categories.get(category).push(page);
+        } else {
+          categories.set(category, [page]);
+        }
+      }
+    }
+    const fragment = document.createDocumentFragment();
+
+    categories.forEach((pages, category) => {
+      const div = document.createElement("div");
+      div.classList.add("category");
+      div.innerHTML = `<h2>${category}</h2>`;
+
+      const list = document.createElement("ul");
+
+      for (const page of pages) {
+        const item = document.createElement("li");
+
+        const dateSpan = document.createElement("span");
+        dateSpan.textContent =
+          page.date === undefined
+            ? "???"
+            : page.date.toLocaleDateString(navigator.language, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              });
+
+        const dashSpan = document.createElement("span");
+        dashSpan.textContent = " - ";
+
+        const link = document.createElement("a");
+        link.href = page.link;
+        link.textContent = page.title;
+
+        item.appendChild(dateSpan);
+        item.appendChild(dashSpan);
+        item.appendChild(link);
+        list.appendChild(item);
+      }
+      div.appendChild(list);
+      fragment.appendChild(div);
+    });
+
+    pageList.innerHTML = "";
+    pageList.appendChild(fragment);
+  }
+
+  filterPages();
+
+  document.querySelector("a.rnd")?.addEventListener("click", () => {
+    window.location.href =
+      pages[Math.floor(Math.random() * (pages.length + 1))].link;
+  });
+</script>
