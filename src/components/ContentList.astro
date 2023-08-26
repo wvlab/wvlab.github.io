@@ -20,24 +20,6 @@ const filterOptions: Map<string, string[]> = new Map([
       </p>;
     })
   }
-  <!--p>
-    <span>Categories</span>:
-    <a href="#" class="filter-link inactive" data-filter="Poetry">[Poetry]</a>
-    <a href="#" class="filter-link inactive" data-filter="Prose">[Prose]</a>
-    <a href="#" class="filter-link inactive" data-filter="Programming"
-      >[Programming]</a
-    >
-    <a href="#" class="filter-link inactive" data-filter="Psychology"
-      >[Psychology]</a
-    >
-  </p>
-
-  <p>
-    <span>Languages</span>:
-    <a href="#" class="filter-link inactive" data-filter="en">[en]</a>
-    <a href="#" class="filter-link inactive" data-filter="ru">[ru]</a>
-    <a href="#" class="filter-link inactive" data-filter="uk">[uk]</a>
-  </p>
   <!-- TODO: make date filter -->
 </div>
 
@@ -59,6 +41,13 @@ const filterOptions: Map<string, string[]> = new Map([
     categories: Categorie[];
   }
   const pages: Page[] = [
+    {
+        title: "Какофонічні сни",
+        date: new Date(2023, 7, 26),
+        link: "prose/dreams",
+        languages: ["uk"],
+        categories: ["Prose"],
+    },
     //{
     //    title: "Structures in C",
     //    date: new Date(2023, 6, 3),
