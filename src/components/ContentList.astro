@@ -1,25 +1,25 @@
 ---
 type Props = Record<string, never>;
-
-const filterOptions: Map<string, string[]> = new Map([
-  ["Categories", ["Poetry", "Prose", "Programming", "Psychology"]],
-  ["Languages", ["en", "uk", "ru"]],
-]);
 ---
 
 <div class="filter-options">
-  {
-    Array.from(filterOptions.entries()).map(([key, values]) => {
-      <p>
-        <span>{key}</span>:
-        {values.map((filter) => {
-          <a href="#" class="filter-link inactive" data-filter={filter}>
-            [{filter}]
-          </a>;
-        })}
-      </p>;
-    })
-  }
+  <p>
+    <span>Categories</span>:
+    <a href="#" class="filter-link inactive" data-filter="Poetry"> [Poetry]</a>
+    <a href="#" class="filter-link inactive" data-filter="Prose"> [Prose]</a>
+    <a href="#" class="filter-link inactive" data-filter="Programming">
+      [Programming]
+    </a>
+    <a href="#" class="filter-link inactive" data-filter="Psychology">
+      [Psychology]
+    </a>
+  </p>
+  <p>
+    <span>Languages</span>:
+    <a href="#" class="filter-link inactive" data-filter="en"> [en]</a>
+    <a href="#" class="filter-link inactive" data-filter="uk"> [uk]</a>
+    <a href="#" class="filter-link inactive" data-filter="ru"> [ru]</a>
+  </p>
   <!-- TODO: make date filter -->
 </div>
 
@@ -31,22 +31,22 @@ const filterOptions: Map<string, string[]> = new Map([
 
 <script>
   type Language = "en" | "uk" | "ru";
-  type Categorie = "Poetry" | "Prose" | "Programming" | "Psychology";
+  type Category = "Poetry" | "Prose" | "Programming" | "Psychology";
 
   interface Page {
     title: string;
     date?: Date;
     link: string;
     languages: Language[];
-    categories: Categorie[];
+    categories: Category[];
   }
   const pages: Page[] = [
     {
-        title: "Какофонічні сни",
-        date: new Date(2023, 7, 26),
-        link: "prose/dreams",
-        languages: ["uk"],
-        categories: ["Prose"],
+      title: "Какофонічні сни",
+      date: new Date(2023, 7, 26),
+      link: "prose/dreams",
+      languages: ["uk"],
+      categories: ["Prose"],
     },
     //{
     //    title: "Structures in C",
@@ -64,7 +64,7 @@ const filterOptions: Map<string, string[]> = new Map([
     },
     {
       title: "unnamed",
-      date: new Date(2023, 7, 25),
+      date: new Date(2023, 5, 25),
       link: "prose/lightning",
       languages: ["ru"],
       categories: ["Prose"],
@@ -146,15 +146,12 @@ const filterOptions: Map<string, string[]> = new Map([
   const filterOptions = document.querySelector(".filter-options")!;
 
   filterOptions.addEventListener("click", (event) => {
-    if (!event.target) return;
     const filterLink = (event.target as Element).closest(".filter-link");
-
     if (!filterLink) return;
-    event.preventDefault();
 
+    event.preventDefault();
     filterLink.classList.toggle("active");
     filterLink.classList.toggle("inactive");
-
     filterPages();
   });
 
@@ -173,15 +170,16 @@ const filterOptions: Map<string, string[]> = new Map([
       }
       selectedFilters.get(filterType).push(filterValue);
     });
+
     return selectedFilters;
   }
 
   function filterPages() {
     const selectedFilters = getSelectedFilters();
+
     const filteredPages = pages.filter((page) => {
-      for (const filterType of selectedFilters) {
-        const selectedValues = selectedFilters.get(filterType);
-        const tags = page[filterType as unknown as keyof Page] as string[];
+      for (const [filterType, selectedValues] of selectedFilters.entries()) {
+        const tags = page[filterType as keyof Page] as string[];
         for (let tag of tags) {
           if (selectedValues.indexOf(tag) >= 0) {
             break;
@@ -195,7 +193,7 @@ const filterOptions: Map<string, string[]> = new Map([
     placePages(filteredPages);
   }
 
-  function placePages(pages: Array<Page>) {
+  function placePages(pages: Page[]) {
     const categories = new Map();
 
     for (const page of pages) {
@@ -207,6 +205,7 @@ const filterOptions: Map<string, string[]> = new Map([
         }
       }
     }
+
     const fragment = document.createDocumentFragment();
 
     categories.forEach((pages, category) => {
@@ -215,7 +214,6 @@ const filterOptions: Map<string, string[]> = new Map([
       div.innerHTML = `<h2>${category}</h2>`;
 
       const list = document.createElement("ul");
-
       for (const page of pages) {
         const item = document.createElement("li");
 
@@ -251,7 +249,7 @@ const filterOptions: Map<string, string[]> = new Map([
 
   filterPages();
 
-  document.querySelector("a.rnd")?.addEventListener("click", () => {
+  document.querySelector("a.rnd")!.addEventListener("click", () => {
     window.location.href =
       pages[Math.floor(Math.random() * (pages.length + 1))].link;
   });
