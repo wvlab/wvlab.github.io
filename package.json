@@ -10,9 +10,19 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.10.9",
-    "firebase": "^10.1.0",
-    "sass": "^1.65.1",
+    "astro": "^2.10.15",
+    "firebase": "^10.3.0",
+    "sass": "^1.66.1",
     "shiki": "^0.14.3"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": false,
+    "trailingComma": "all",
+    "bracketSameLine": false,
+    "proseWrap": "always",
+    "endOfLine": "lf"
   }
 }

@@ -4,24 +4,24 @@ import MainPageAnchor from "@components/MainPageAnchor.astro";
 ---
 
 <DefaultLayout
-    title="This user is becoming wvlab's slave... In process... Kind of..."
+  title="This user is becoming wvlab's slave... In process... Kind of..."
 >
-    <MainPageAnchor />
-    <noscript><h1>You can't use accounts if you block JS</h1></noscript>
-    <div class="centered">
-        Hello, <span id="uname-show"></span><br>
-        Soon you'll have settings here
-    </div>
+  <MainPageAnchor />
+  <noscript><h1>You can't use accounts if you block JS</h1></noscript>
+  <div class="centered">
+    Hello, <span id="uname-show"></span><br />
+    Soon you'll have settings here
+  </div>
 </DefaultLayout>
 
 <script>
-    import { onAuthStateChanged } from "firebase/auth";
-    import { auth } from "@scripts/firebaseinit";
+  import { onAuthStateChanged } from "firebase/auth";
+  import { auth } from "@scripts/firebaseinit";
 
-    console.log(auth);
-    const unameSpan = document.getElementById("uname-show")!;
+  console.log(auth);
+  const unameSpan = document.getElementById("uname-show")!;
 
-    onAuthStateChanged(auth, (user) => {
-        unameSpan.textContent = user?.displayName || "stop... you aren't signed in";
-    });
+  onAuthStateChanged(auth, (user) => {
+    unameSpan.textContent = user?.displayName || "stop... you aren't signed in";
+  });
 </script>

@@ -3,38 +3,38 @@ export type Props = Record<string, never>;
 ---
 
 <style>
-    blockquote {
-        min-height: 75px;
-        white-space: pre-wrap;
-    }
+  blockquote {
+    min-height: 75px;
+    white-space: pre-wrap;
+  }
 
-    cite {
-        font-style: normal;
-    }
+  cite {
+    font-style: normal;
+  }
 
-    cite::before {
-        content: "[";
-    }
+  cite::before {
+    content: "[";
+  }
 
-    cite::after {
-        content: "]";
-    }
+  cite::after {
+    content: "]";
+  }
 </style>
 
 <blockquote>
-    <p id="rnd-saying"></p>
-    <cite id="rnd-saying-author"></cite>
+  <p id="rnd-saying"></p>
+  <cite id="rnd-saying-author"></cite>
 </blockquote>
 
 <script>
-    const textElem = document.getElementById("rnd-saying")!;
-    const authorElem = document.getElementById("rnd-saying-author")!;
+  const textElem = document.getElementById("rnd-saying")!;
+  const authorElem = document.getElementById("rnd-saying-author")!;
 
-    const sayings = await (await fetch("/data/sayings.json")).json();
+  const sayings = await (await fetch("/data/sayings.json")).json();
 
-    const { s: text, a: author } =
-        sayings[Math.floor(Math.random() * sayings.length)];
+  const { s: text, a: author } =
+    sayings[Math.floor(Math.random() * sayings.length)];
 
-    textElem.textContent = text;
-    authorElem.textContent = author;
+  textElem.textContent = text;
+  authorElem.textContent = author;
 </script>
