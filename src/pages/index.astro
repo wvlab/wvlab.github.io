@@ -9,7 +9,7 @@ import RandomSaying from "@components/RandomSaying.astro";
 <DefaultLayout title="exec ~/.wvlab">
   <PageBar>
     <Social slot="center-align" />
-    <a slot="right-align" class="inactive profile-link">[login|profile]</a>
+    <a slot="right-align" href="/login">[login|profile]</a>
   </PageBar>
 
   <div class="centered">
@@ -18,15 +18,3 @@ import RandomSaying from "@components/RandomSaying.astro";
   </div>
   <ContentList />
 </DefaultLayout>
-
-<script>
-  import { onAuthStateChanged } from "firebase/auth";
-  import { auth } from "@scripts/firebaseinit";
-
-  const profLink = document.querySelector(".profile-link")!;
-  profLink.classList.remove("inactive");
-
-  onAuthStateChanged(auth, (user) => {
-    profLink.setAttribute("href", user ? "/user" : "/login");
-  });
-</script>
