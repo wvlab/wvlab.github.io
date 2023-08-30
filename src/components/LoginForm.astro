@@ -76,12 +76,14 @@ export type Props = Record<string, never>;
     createUserWithEmailAndPassword,
     updateProfile,
     onAuthStateChanged,
+    fetchSignInMethodsForEmail,
   } from "firebase/auth";
   import { ref, set } from "firebase/database";
   import { auth, db } from "@scripts/firebaseinit";
   import { processError } from "@scripts/firebaseutils";
+
   onAuthStateChanged(auth, (user) => {
-    if (user) window.location.replace("/user");
+    // if (user) window.location.replace("/user");
   });
 
   enum FormState {
@@ -128,6 +130,25 @@ export type Props = Record<string, never>;
     signUpButton.classList.add("inactive");
   });
 
+  function isAlphaNum(str: string): boolean {
+    const l = str.length;
+    for (var i = 0; i < l; i++) {
+      var char = str.charAt(i).charCodeAt(0);
+
+      if (
+        !(
+          (char > 47 && char < 58) ||
+          (char > 64 && char < 91) ||
+          (char > 96 && char < 123)
+        )
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   const errorDiv = document.querySelector(".for-error")!;
   submitButton!.addEventListener("click", async () => {
     const getInpElemValue = (name: string): string =>
@@ -143,6 +164,13 @@ export type Props = Record<string, never>;
         errorDiv.textContent = "Username is empty!";
         return;
       }
+
+      if (!isAlphaNum(uname)) {
+        errorDiv.textContent =
+          "Username must contain only English letters or numbers";
+        return;
+      }
+
       if (passwd !== validate) {
         errorDiv.textContent = "Passwords aren't the same!";
         return;
