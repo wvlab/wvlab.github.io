@@ -65,8 +65,8 @@ export type Props = Record<string, never>;
 
   <details id="forgot-passwd" class="hide" style="padding-top: 50px;">
     <summary>I forgot password, what to do now?</summary>
-    Write me from your email to wvlab@murena.io or wvlab@protonmail.com!<br />
-    I'll send you password reset letter then
+     Write me from your email to wvlab@murena.io or wvlab@protonmail.com!<br />
+     I'll send you password reset letter then
   </details>
 </div>
 
@@ -78,7 +78,7 @@ export type Props = Record<string, never>;
     onAuthStateChanged,
     fetchSignInMethodsForEmail,
   } from "firebase/auth";
-  import { ref, set } from "firebase/database";
+  import { get, ref, set } from "firebase/database";
   import { auth, db } from "@scripts/firebaseinit";
   import { processError } from "@scripts/firebaseutils";
 
@@ -218,23 +218,26 @@ export type Props = Record<string, never>;
     email: string,
     password: string,
   ): Promise<void> {
+    const userRef = ref(db, "users/" + username);
     try {
-      await set(ref(db, "users/" + username), {
-        email: email,
-        isRegistered: true,
-      });
-    } catch (error) {
-      processError(
-        errorDiv,
-        error,
-        "Somebady has already taken your username, " +
-          "or I messed up whole database (it's almost impossible)",
-      );
+      await get(userRef);
+    } catch {
+      errorDiv.textContent = "nope, user is already in use";
       return;
     }
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      processError(errorDiv, error);
+      return;
+    }
+
+    try {
+      await set(userRef, {
+        email: email,
+        isRegistered: true,
+      });
     } catch (error) {
       processError(errorDiv, error);
       return;
