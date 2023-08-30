@@ -1,25 +1,32 @@
 ---
-import '@styles/base.scss';
-import Social from '@components/Social.astro';
-import ContentList from '@components/ContentList.astro';
-import RandomSaying from '@components/RandomSaying.astro';
+import DefaultLayout from "@layouts/default.astro";
+import PageBar from "@components/PageBar.astro";
+import Social from "@components/Social.astro";
+import ContentList from "@components/ContentList.astro";
+import RandomSaying from "@components/RandomSaying.astro";
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>exec ~/.wvlab</title>
-  </head>
+<DefaultLayout title="exec ~/.wvlab">
+  <PageBar>
+    <Social slot="center-align" />
+    <a slot="right-align" class="inactive profile-link">[login|profile]</a>
+  </PageBar>
 
-  <body>
-    <Social />
-    <div class="centered">
-      <p>&nbsp;Who am I?<span class="caret">|</span></p>
-      <RandomSaying />
-    </div>
-    <ContentList />
-  </body>
-</html>
+  <div class="centered">
+    <p>&nbsp;Who am I?<span class="caret">|</span></p>
+    <RandomSaying />
+  </div>
+  <ContentList />
+</DefaultLayout>
+
+<script>
+  import { onAuthStateChanged } from "firebase/auth";
+  import { auth } from "@scripts/firebaseinit";
+
+  const profLink = document.querySelector(".profile-link")!;
+  profLink.classList.remove("inactive");
+
+  onAuthStateChanged(auth, (user) => {
+    profLink.setAttribute("href", user ? "/user" : "/login");
+  });
+</script>

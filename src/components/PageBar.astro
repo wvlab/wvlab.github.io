@@ -1,0 +1,33 @@
+---
+export type Props = { children?: any[] };
+---
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .left-align {
+    margin-right: auto;
+  }
+  .center-align {
+    margin: 0 auto;
+    position: absolute;
+  }
+  .right-align {
+    margin-left: auto;
+  }
+</style>
+
+<div class="container">
+  <div class="left-align">
+    <slot name="left-align"><div></div></slot>
+  </div>
+  <div class="center-align">
+    <slot name="center-align" />
+  </div>
+  <div class="right-align">
+    <slot name="right-align"><div></div></slot>
+  </div>
+</div>
