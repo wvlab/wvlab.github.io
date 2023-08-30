@@ -76,13 +76,14 @@ export type LoginForm = Record<string, never>;
         signInWithEmailAndPassword,
         createUserWithEmailAndPassword,
         updateProfile,
+        onAuthStateChanged,
     } from "firebase/auth";
     import { ref, set } from "firebase/database";
     import { auth, db } from "@scripts/firebaseinit";
     import { processError } from "@scripts/firebaseutils";
-    if (auth?.currentUser) {
-        window.location.replace("/user");
-    }
+    onAuthStateChanged(auth, (user) => {
+        if (user) window.location.replace("/user");
+    });
 
     enum FormState {
         SignIn,
