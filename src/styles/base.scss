@@ -6,9 +6,14 @@ html {
 
 }
 
-body {
+body, input, textarea, select {
     color: #ffffff;
     background-color: #000000;
+}
+
+input, textarea, select {
+    border: 0;
+    outline: none !important;
 }
 
 h2, h1 {
@@ -18,35 +23,14 @@ h2, h1 {
     }
 }
 
-div {
-    &.centered {
-        text-align: center;
-    }
+.centered {
+    text-align: center;
+}
 
+div {
     &.prose {
         margin: auto;
         max-width: $mwidth;
-    }
-
-    &.poetry {
-        @mixin center-poem($display: flex) {
-            display: $display;
-            justify-content: center;
-        }
-
-        @include center-poem;
-        margin: auto;
-        text-align: left;
-        max-width: $mwidth;
-
-        .verse-wrapper {
-            margin: 0 auto;
-        }
-
-        .verse {
-            @include center-poem;
-            flex-direction: column;
-        }
     }
 
     &.article {
@@ -86,6 +70,29 @@ div {
     }
 }
 
+div {
+    @mixin center-poem($display: flex) {
+        display: $display;
+        justify-content: center;
+    }
+
+    &.poetry {
+        @include center-poem;
+        margin: auto;
+        text-align: left;
+        max-width: $mwidth;
+    }
+
+    &.verse-wrapper {
+        margin: 0 auto;
+    }
+
+    &.verse {
+        @include center-poem;
+        flex-direction: column;
+    }
+}
+
 .hide {
     visibility: hidden;
 }
@@ -118,10 +125,6 @@ span {
     &.caret {
         animation: blink 1s step-end infinite;
     }
-}
-
-img {
-    width: 50%;
 }
 
 @keyframes blink {

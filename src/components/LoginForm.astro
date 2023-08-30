@@ -1,0 +1,224 @@
+---
+export type LoginForm = Record<string, never>;
+---
+
+<style>
+    form {
+        padding-bottom: 50px;
+    }
+    label::after {
+        content: "| ";
+    }
+</style>
+
+<div class="centered">
+    <h1>login</h1>
+    <form class="login-form">
+        <div id="uname" class="input-field">
+            <label for="uname">Username</label>
+            <input
+                type="text"
+                placeholder="Enter Username"
+                name="uname"
+                autocomplete="username"
+            />
+        </div>
+
+        <div id="email" class="input-field">
+            <label for="email">&nbsp;&nbsp;&nbsp;Email</label>
+            <!-- TODO: find better solution to align -->
+            <input
+                type="text"
+                placeholder="Enter Email"
+                name="email"
+                autocomplete="email"
+            />
+        </div>
+
+        <div id="passwd" class="input-field">
+            <label for="passwd">Password</label>
+            <input
+                type="password"
+                placeholder="Enter Password"
+                name="passwd"
+                autocomplete="new-password"
+            />
+        </div>
+
+        <div id="validate" class="input-field">
+            <label for="validate">Validate</label>
+            <input
+                type="password"
+                placeholder="Validate Password"
+                name="validate"
+                autocomplete="none"
+            />
+        </div>
+    </form>
+    <div class="change-form">
+        <a href="#" class="sing-up">[Sing Up]</a>&nbsp;
+        <a href="#" class="sign-in inactive">[Sign In]</a>
+    </div>
+    <a href="#" class="submit">[Submit]</a>
+
+    <div class="for-error"></div>
+
+    <details id="forgot-passwd" class="hide" style="padding-top: 50px;">
+        <summary>I forgot password, what to do now?</summary>
+        Write me from your email to wvlab@murena.io or wvlab@protonmail.com!<br
+        />
+        I'll send you password reset letter then
+    </details>
+</div>
+
+<script>
+    import {
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+        updateProfile,
+    } from "firebase/auth";
+    import { ref, set } from "firebase/database";
+    import { auth, db } from "@scripts/firebaseinit";
+    import { processError } from "@scripts/firebaseutils";
+    if (auth?.currentUser) {
+        window.location.replace("/user");
+    }
+
+    enum FormState {
+        SignIn,
+        SignUp,
+    }
+
+    let mstate = FormState.SignUp;
+    const getElems = (...elems: string[]) =>
+        elems.map((x: string) => document.getElementById(x)!);
+
+    const toHide = getElems("uname", "validate");
+    const toShow = getElems("forgot-passwd");
+
+    const signUpButton = document.querySelector(".sing-up")!;
+    const signInButton = document.querySelector(".sign-in")!;
+    const submitButton = document.querySelector(".submit")!;
+
+    signUpButton.addEventListener("click", () => {
+        mstate = FormState.SignUp;
+
+        for (const elem of toHide) {
+            elem.classList.remove("hide");
+        }
+        for (const elem of toShow) {
+            elem.classList.add("hide");
+        }
+
+        signUpButton.classList.remove("inactive");
+        signInButton.classList.add("inactive");
+    });
+
+    signInButton.addEventListener("click", () => {
+        mstate = FormState.SignIn;
+
+        for (const elem of toHide) {
+            elem.classList.add("hide");
+        }
+        for (const elem of toShow) {
+            elem.classList.remove("hide");
+        }
+
+        signInButton.classList.remove("inactive");
+        signUpButton.classList.add("inactive");
+    });
+
+    const errorDiv = document.querySelector(".for-error")!;
+    submitButton!.addEventListener("click", async () => {
+        const getInpElemValue = (name: string): string =>
+            (document.getElementsByName(name)[0] as HTMLInputElement).value;
+
+        const uname = getInpElemValue("uname");
+        const email = getInpElemValue("email");
+        const passwd = getInpElemValue("passwd");
+        const validate = getInpElemValue("validate");
+
+        if (mstate === FormState.SignUp) {
+            if (!uname) {
+                errorDiv.textContent = "Username is empty!";
+                return;
+            }
+            if (passwd !== validate) {
+                errorDiv.textContent = "Passwords aren't the same!";
+                return;
+            }
+        }
+
+        if (!passwd) {
+            errorDiv.textContent = "Password is empty!";
+            return;
+        }
+
+        if (!email) {
+            errorDiv.textContent = "Email is empty!";
+            return;
+        }
+
+        switch (mstate) {
+            case FormState.SignIn: {
+                signIn(email, passwd);
+                break;
+            }
+            case FormState.SignUp: {
+                signUp(uname, email, passwd);
+                break;
+            }
+            default: {
+                errorDiv.textContent = "Wrong state... Developer skill issue";
+                break;
+            }
+        }
+    });
+
+    function signIn(email: string, password: string): void {
+        signInWithEmailAndPassword(auth, email, password)
+            .then((_: any) => {
+                window.location.replace("/user");
+            })
+            .catch((error: any) => {
+                errorDiv.textContent = error.message;
+            });
+    }
+
+    async function signUp(
+        username: string,
+        email: string,
+        password: string
+    ): Promise<void> {
+        try {
+            await set(ref(db, "users/" + username), {
+                email: email,
+                isRegistered: true,
+            });
+        } catch (error) {
+            processError(
+                errorDiv,
+                error,
+                "Somebady has already taken your username, " +
+                    "or I messed up whole database (it's almost impossible)"
+            );
+            return;
+        }
+
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            processError(errorDiv, error);
+            return;
+        }
+
+        try {
+            await updateProfile(auth.currentUser!, { displayName: username });
+        } catch (error) {
+            processError(errorDiv, error);
+            return;
+        }
+
+        window.location.replace("/user");
+    }
+</script>
