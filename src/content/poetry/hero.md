@@ -1,7 +1,7 @@
 ---
-layout: /src/layouts/poetry.astro
 title: Продажный герой
 lang: ru
+date: 2022-02-17
 ---
 
 Судьбы не было бы, прошлого нету  

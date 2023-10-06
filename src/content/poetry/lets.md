@@ -1,7 +1,7 @@
 ---
-layout: /src/layouts/poetry.astro
 title: Давай
 lang: ru
+date: 2023-03-27
 ---
 
 Давай мы устроим свой дом,  

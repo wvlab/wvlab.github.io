@@ -1,7 +1,7 @@
 ---
-layout: /src/layouts/poetry.astro
 title: Солнце тихо тонет в луже
 lang: ru
+date: 2023-04-02
 ---
 
 Солнце тихо тонет в луже  

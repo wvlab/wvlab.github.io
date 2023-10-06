@@ -1,5 +1,4 @@
 ---
-layout: /src/layouts/prose.astro
 title: "Мальчик, который кричал: «Волк!»"
 lang: ru
 ---

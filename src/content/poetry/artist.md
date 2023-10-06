@@ -1,7 +1,7 @@
 ---
-layout: /src/layouts/poetry.astro
-title: наш социум принял безумца
+title: "наш социум принял безумца"
 lang: ru
+date: 2023-07-16
 ---
 
 Художник рисуя картину  

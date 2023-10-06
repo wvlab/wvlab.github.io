@@ -3,16 +3,11 @@ import DefaultLayout from "@layouts/default.astro";
 import Related from "@components/Related.astro";
 import MainPageAnchor from "@components/MainPageAnchor.astro";
 
-const {
-  frontmatter: { title, lang, related },
-} = Astro.props;
+const { title, lang } = Astro.props;
 
 interface Props {
-  frontmatter: {
-    title?: string;
-    lang: string;
-    related?: string;
-  };
+  title?: string;
+  lang: string;
 }
 ---
 
@@ -20,14 +15,14 @@ interface Props {
   <MainPageAnchor />
   <div class="poetry">
     <div>
-      {title != "unnamed" && <h2 class="title">{title}</h2>}
+      {title !== undefined && <h2 class="title">{title}</h2>}
 
       <div class="verse">
         <div class="verse-wrapper">
-          <slot />
+          <slot name="verse"/>
         </div>
       </div>
-      {related !== undefined && <Related text={related} />}
+      <slot name="related-div"/>
     </div>
   </div>
   <MainPageAnchor />

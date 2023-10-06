@@ -1,6 +1,4 @@
 ---
-layout: /src/layouts/prose.astro
-title: unnamed
 lang: ru
 ---
 

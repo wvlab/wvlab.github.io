@@ -3,15 +3,11 @@ import "@styles/base.scss";
 import DefaultLayout from "@layouts/default.astro";
 import MainPageAnchor from "@components/MainPageAnchor.astro";
 
-const {
-  frontmatter: { title, lang },
-} = Astro.props;
+const { title, lang } = Astro.props;
 
 interface Props {
-  frontmatter: {
-    title?: string;
-    lang: string;
-  };
+  title?: string;
+  lang: string;
 }
 ---
 

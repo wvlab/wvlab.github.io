@@ -1,5 +1,4 @@
 ---
-layout: /src/layouts/prose.astro
 title: Башня для А.
 lang: ru
 ---

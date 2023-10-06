@@ -1,7 +1,7 @@
 ---
-layout: /src/layouts/poetry.astro
 title: Дворец у дворца
 lang: ru
+date: 2022-01-16
 ---
 
 Рагнарок! Рагнарок! Рагнарок!  

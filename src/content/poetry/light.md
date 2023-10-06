@@ -1,7 +1,7 @@
 ---
-layout: /src/layouts/poetry.astro
 title: Свет
 lang: ru
+date: 2022-01-05
 ---
 
 Забитый тоскою земною,  

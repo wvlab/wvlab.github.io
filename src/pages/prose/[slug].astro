@@ -1,0 +1,48 @@
+---
+import { getCollection, type CollectionEntry, getEntry } from "astro:content";
+import type { GetStaticPaths } from "astro";
+
+import ProseLayout from "@layouts/prose.astro";
+import Related from "@components/Related.astro";
+
+export const getStaticPaths = (async () =>
+  (await getCollection("prose"))?.map((x) => ({
+    params: { slug: x.slug },
+    props: { entry: x },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  entry: CollectionEntry<"prose">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const related =
+  entry.data.related !== undefined
+    ? await Promise.all(entry.data.related.map((x: any) => getEntry(x)))
+    : [];
+
+const relatedContent = await Promise.all(
+  related.map(async (x) => {
+    const { Content: X } = await x.render();
+    return X;
+  }),
+);
+
+const _ = relatedContent;
+---
+
+<ProseLayout title={entry.data.title} lang={entry.data.lang[0]}>
+  <Content />
+
+  <!--div slot="related-div">
+    {
+      relatedContent.map((X) => (
+        <Related>
+          <X />
+        </Related>
+      ))
+    }
+  </div-->
+</ProseLayout>
