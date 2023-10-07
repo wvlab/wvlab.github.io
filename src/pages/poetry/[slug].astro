@@ -35,9 +35,15 @@ const _ = relatedContent;
 <PoetryLayout title={entry.data.title} lang={entry.data.lang[0]}>
   <Content slot="verse" />
 
-  <div slot="related-div">
-    <div class="related">
-      {relatedContent.map((X) => <X />)}
-    </div>
-  </div>
+  {
+    relatedContent.length != 0 && (
+      <div slot="related-div">
+        <div class="related">
+          {relatedContent.map((X) => (
+            <X />
+          ))}
+        </div>
+      </div>
+    )
+  }
 </PoetryLayout>
