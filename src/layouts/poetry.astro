@@ -1,6 +1,5 @@
 ---
 import DefaultLayout from "@layouts/default.astro";
-import Related from "@components/Related.astro";
 import MainPageAnchor from "@components/MainPageAnchor.astro";
 
 const { title, lang } = Astro.props;
@@ -19,10 +18,9 @@ interface Props {
 
       <div class="verse">
         <div class="verse-wrapper">
-          <slot name="verse"/>
+          <slot name="verse" />
         </div>
       </div>
-      <slot name="related-div"/>
     </div>
   </div>
   <MainPageAnchor />

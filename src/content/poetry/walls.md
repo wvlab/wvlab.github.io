@@ -1,5 +1,4 @@
 ---
-layout: /src/layouts/poetry.astro
 title: unnamed
 lang: uk
 ---

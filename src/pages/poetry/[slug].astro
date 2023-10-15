@@ -3,7 +3,6 @@ import { getCollection, type CollectionEntry, getEntry } from "astro:content";
 import type { GetStaticPaths } from "astro";
 
 import PoetryLayout from "@layouts/poetry.astro";
-import Related from "@components/Related.astro";
 
 export const getStaticPaths = (async () =>
   (await getCollection("poetry"))?.map((x) => ({
@@ -25,11 +24,10 @@ const related =
 
 const relatedContent = await Promise.all(
   related.map(async (x) => {
-    const { Content: X } = await x.render();
+    const { Content: X } = await x!.render();
     return X;
   }),
 );
-const _ = relatedContent;
 ---
 
 <PoetryLayout title={entry.data.title} lang={entry.data.lang[0]}>
@@ -38,11 +36,14 @@ const _ = relatedContent;
   {
     relatedContent.length != 0 && (
       <div slot="related-div">
-        <div class="related">
-          {relatedContent.map((X) => (
-            <X />
-          ))}
-        </div>
+        {relatedContent.map(
+          (X) =>
+            X !== undefined && (
+              <div class="related">
+                <X />
+              </div>
+            ),
+        )}
       </div>
     )
   }
