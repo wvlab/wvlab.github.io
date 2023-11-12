@@ -6,6 +6,20 @@ import ContentList from "@components/ContentList.astro";
 import RandomSaying from "@components/RandomSaying.astro";
 ---
 
+<style is:global>
+  body {
+    cursor:
+      url("/cursor/default.png") 15 9,
+      auto;
+  }
+
+  a, a:hover {
+    cursor:
+      url("/cursor/choose.png") 15 9,
+      pointer;
+  }
+</style>
+
 <DefaultLayout title="exec ~/.wvlab">
   <PageBar>
     <Social slot="center-align" />
